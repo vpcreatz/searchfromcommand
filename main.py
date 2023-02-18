@@ -1,6 +1,21 @@
 import sqlite3
 import pymongo
+from pyrogram import Client, filters
 from telegram.ext import CommandHandler
+
+API_ID = ""
+API_HASH = ""
+BOT_TOKEN = ""
+
+VPCREATION=Client(
+    name="searchfromcommand",
+    api_id=API_ID,
+    api_hash=API_HASH,
+    bot_token=BOT_TOKEN
+)
+
+
+print("Bot Started !")
 
 # Connects to the client of MongoDB 
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")  
