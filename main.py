@@ -3,6 +3,7 @@ import pymongo
 from pyrogram import Client, filters
 from telegram.ext import CommandHandler
 from database import dispatcher
+from database import dispatcher.add_handler
 
 API_ID = "20960397"
 API_HASH = "d68d847d3abb2087bf74f5d0683c2993"
