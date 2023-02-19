@@ -3,7 +3,6 @@ import pymongo
 from pyrogram import Client, filters
 from telegram.ext import CommandHandler
 from database import dispatcher
-from dispatcher import add_handler
 
 API_ID = "20960397"
 API_HASH = "d68d847d3abb2087bf74f5d0683c2993"
@@ -13,7 +12,7 @@ VPCREATION=Client(
     name="searchfromcommand",
     api_id=API_ID,
     api_hash=API_HASH,
-    token=TOKEN
+    bot_token=TOKEN
 )
 
 
