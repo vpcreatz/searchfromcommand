@@ -1,0 +1,41 @@
+# corrected code
+import sqlite3 # import the sqlite3 library 
+import pymongo # import the PyMongo library 
+from telegram.ext import Updater, CommandHandler # import the necessary packages from Telegram 
+
+# connect to MongoDB database 
+client = pymongo.MongoClient('mongodb+srv://vpcreatz:VPCREATION@cluster0.6lncjwt.mongodb.net/?retryWrites=true&w=majority')
+db = client.telegrambot # specify your database name here 
+collection = db.requests # specifiy your collection name here 
+
+
+# defined handlers 
+def start(update, context): 
+    update.message.reply_text('Hello! This is a telegram bot which uses SQLite3 and MongoDB.') 
+
+    
+def insertrequest(update, context): 
+
+    data = {  'user': update.message.from_user.username,  'chatid': update.message.chat_id } 
+
+    request = collection.insert_one(data) # store user details as a document into MongoDB collection  
+
+    print("Request inserted: ", request.inserted_id) # display Mongo generated document id in console 
+
+    con = sqlite3.connect('user-activities-records') # connect to SQLite Database       
+    with con:  # create a cursor object instance     
+        cur = con.cursor()     
+        # execute the INSERT statement     
+        cur.execute("INSERT INTO activities (username, chatid) VALUES (?, ?)", (data['user'], data['chatid']))     
+        print("Record added successfully")           
+        con.commit()          
+        con.close()       
+    update.message.reply_text('Request submitted!')
+    
+    updater = Updater('TOKEN', use_context=True)         
+    dispatcher = updater.dispatcher         
+    start_handler = CommandHandler('start', start)          
+    insert_req_handler = CommandHandler('addreq', insertrequest)           
+    dispatcher.add_handler(start_handler)          
+    dispatcher.add_handler(insert_req_handler)           
+    updater.start_polling()
