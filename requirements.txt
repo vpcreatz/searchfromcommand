@@ -1,4 +1,3 @@
-sqlite3
 pymongo
 tgcrypto
 pyrogram
